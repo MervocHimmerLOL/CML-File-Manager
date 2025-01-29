@@ -1,5 +1,4 @@
 import os.path
-import sys
 
 
 def copy_file(file_name):
@@ -15,3 +14,18 @@ def copy_file(file_name):
 
 def delete_file(file_name):
     os.remove(file_name)
+
+def count_files(dir_to_count):
+    counter = 0
+    print(f'started curdir = {dir_to_count.name}')
+    if(os.path.exists(dir_to_count.name)):
+        for root, dir, file in os.walk(dir_to_count.name):
+            print(root)
+            print(dir)
+            print(file)
+            for file in file:
+                print(file)
+                counter += 1
+    else:
+        raise NotADirectoryError ("No dir!")
+    return counter
