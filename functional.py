@@ -1,5 +1,4 @@
 import os.path
-import sys
 
 
 def copy_file(file_name):
@@ -9,9 +8,12 @@ def copy_file(file_name):
             with open(file_copy, 'wb') as f_copy:
                 for line in f:
                     f_copy.write(line)
-        #return file_copy
     else:
-        print('There is no file like this!')
+        print('There is no such file!')
+
 
 def delete_file(file_name):
-    os.remove(file_name)
+    if os.path.exists(file_name):
+        os.remove(file_name)
+    else:
+        print('There is no such file!')
