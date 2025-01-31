@@ -1,4 +1,5 @@
 import os.path
+from reprlib import recursive_repr
 
 
 def copy_file(file_name):
@@ -8,24 +9,22 @@ def copy_file(file_name):
             with open(file_copy, 'wb') as f_copy:
                 for line in f:
                     f_copy.write(line)
-        #return file_copy
     else:
         print('There is no file like this!')
+
 
 def delete_file(file_name):
     os.remove(file_name)
 
+
 def count_files(dir_to_count):
+    # Non-recursive
     counter = 0
-    print(f'started curdir = {dir_to_count.name}')
-    if(os.path.exists(dir_to_count.name)):
-        for root, dir, file in os.walk(dir_to_count.name):
-            print(root)
-            print(dir)
-            print(file)
-            for file in file:
-                print(file)
-                counter += 1
-    else:
-        raise NotADirectoryError ("No dir!")
+    dir = os.path.normpath(dir_to_count)
+    #print(dir)
+    for item in os.listdir(dir):
+        #print(item)
+        if os.path.isfile(os.path.join(dir_to_count, item)):
+            counter += 1
+    print(f'There are currently: {counter} files in {dir}')
     return counter
