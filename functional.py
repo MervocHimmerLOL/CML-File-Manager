@@ -1,5 +1,5 @@
 import os.path
-
+import re
 
 def copy_file(file_name):
     if os.path.isfile(file_name):
@@ -22,11 +22,24 @@ def delete_file(file_name):
 def count_files(dir_to_count):
     # Non-recursive
     counter = 0
-    dir = os.path.normpath(dir_to_count)
+    directory = os.path.normpath(dir_to_count)
     #print(dir)
-    for item in os.listdir(dir):
+    for item in os.listdir(directory):
         #print(item)
         if os.path.isfile(os.path.join(dir_to_count, item)):
             counter += 1
-    print(f'There are currently: {counter} files in {dir}')
+    print(f'There are currently: {counter} files in {directory}')
     return counter
+
+def re_search(pattern, dir = os.getcwd()):
+    cur_dir = dir
+    result = list()
+    print(f'We started! Pattern - {pattern} \n')
+    for root, d, files in os.walk(cur_dir):
+        #print(root, dir, files, sep='\n')
+        for file in files:
+            if re.search(pattern, file):
+                result.append(os.path.join(root, file))
+    for item in result:
+        print(item + '\n')
+    return result

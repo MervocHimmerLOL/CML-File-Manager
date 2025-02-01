@@ -12,7 +12,7 @@ class TestFunctional(unittest.TestCase):
         self.temp_file = os.path.join(self.temp_dir_path, 'test_file.txt')
         self.temp_dir_2_layer = tempfile.TemporaryDirectory(dir = self.temp_dir_path, prefix ='temp_dir_2_layer')
         self.temp_dir_2_layer_path = self.temp_dir_2_layer.name
-        self.temp_file_2_layer = os.path.join(self.temp_dir_2_layer_path, 'test_file.txt')
+        self.temp_file_2_layer = os.path.join(self.temp_dir_2_layer_path, 'test_file_2_layer.txt')
 
         with open(self.temp_file, 'w') as file:
             file.write('Hello world!')
@@ -42,6 +42,9 @@ class TestFunctional(unittest.TestCase):
         print('GOTTA TEST COUNT FUNC')
         self.assertEqual(functional.count_files(self.temp_dir_path), 1)
         print("^^^ COUNT FUNC")
+
+    def test_re_search(self):
+        self.assertEqual(functional.re_search('test_file.txt', self.temp_dir_path), ['test_file.txt'])
 
 if __name__ == "__main__":
     unittest.main()
