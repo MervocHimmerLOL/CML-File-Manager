@@ -24,6 +24,7 @@ count_parser.set_defaults(func=functional.count_files)
 #Re_search
 search_parser = subparsers.add_parser('search', help='Searches files in directory with regular exp. Recursive')
 search_parser.add_argument('pattern', type=str)
+search_parser.add_argument('-d', '--dir', default = os.getcwd(), help='Directory where to search')
 search_parser.set_defaults(func=functional.re_search)
 
 args = parser.parse_args()
