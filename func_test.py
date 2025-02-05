@@ -1,3 +1,4 @@
+from datetime import datetime, date
 import os
 import unittest
 import tempfile
@@ -29,6 +30,7 @@ class TestFunctional(unittest.TestCase):
         print(f'TEST OF COPY FUNC TEMP FILE = {self.temp_file}')
         copied_file = f"{os.path.splitext(self.temp_file)[0]}_copy{os.path.splitext(self.temp_file)[1]}"
         print(f'TEST OF COPY FUNC COPIED FILE = {copied_file}')
+        print(os.listdir(self.temp_dir_path))
         self.assertTrue(os.path.isfile(copied_file), 'There is no copy!!!')
         with open(self.temp_file, 'r') as og, open(copied_file, 'r') as copy:
             self.assertEqual(og.read(), copy.read(), 'Files differ')
@@ -44,7 +46,30 @@ class TestFunctional(unittest.TestCase):
         print("^^^ COUNT FUNC")
 
     def test_re_search(self):
-        self.assertEqual(functional.re_search('test_file.txt', self.temp_dir_path), ['test_file.txt'])
+        self.assertEqual(functional.re_search('test_file.txt', self.temp_dir_path), [self.temp_file])
+
+    def test_date_file(self):
+        print('DATE FILE TEST')
+        functional.date_file(self.temp_file)
+        print(os.listdir(self.temp_dir_path))
+        self.assertTrue(f'{date.today().strftime('%Y_%m_%d')}_test_file.txt' in os.listdir(self.temp_dir_path))
+
+    def test_date_dir(self):
+        print("DATE DIR TEST")
+        functional.date_file(self.temp_dir_path)
+        print(os.listdir(self.temp_dir_path))
+        self.assertTrue(f'{date.today().strftime('%Y_%m_%d')}_test_file.txt' in os.listdir(self.temp_dir_path))
+
+    def test_date_dir_re(self):
+        print("DATE DIR RECURSIVELY TEST")
+        functional.date_file(self.temp_dir_path, recursive=True)
+        expected = []
+        for _, _, file in os.walk(self.temp_dir_path):
+            expected.append(file[0])
+            print(file)
+        print(expected)
+        self.assertTrue(f'{date.today().strftime('%Y_%m_%d')}_test_file.txt' and f'{date.today().strftime('%Y_%m_%d')}_test_file_2_layer.txt' in expected)
+
 
 if __name__ == "__main__":
     unittest.main()

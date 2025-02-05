@@ -7,7 +7,8 @@ commands = {
     'copy': functional.copy_file,
     'delete': functional.delete_file,
     'count': functional.count_files,
-    'search': functional.re_search
+    'search': functional.re_search,
+    'date': functional.date_file
 }
 
 parser = argparse.ArgumentParser(description='CLA File Manager')
@@ -24,13 +25,20 @@ count_parser.set_defaults(func=functional.count_files)
 #Re_search
 search_parser = subparsers.add_parser('search', help='Searches files in directory with regular exp. Recursive')
 search_parser.add_argument('pattern', type=str)
-search_parser.add_argument('-d', '--dir', default = os.getcwd(), help='Directory where to search')
+search_parser.add_argument('-d','--dir', default = os.getcwd(), help='Directory where to search')
 search_parser.set_defaults(func=functional.re_search)
+#Date file
+date_parser = subparsers.add_parser('date', help='TEMP')
+date_parser.add_argument('dir', type=str)
+date_parser.add_argument('-r', '--recursive', action='store_true')
+date_parser.set_defaults(func=functional.date_file)
 
 args = parser.parse_args()
 print(args)
 
 if args.command == 'search':
     commands[args.command](args.pattern)
+elif args.command == 'date' and args.recursive:
+    commands[args.command](args.dir, args.recursive)
 else:
     commands[args.command](args.dir)
