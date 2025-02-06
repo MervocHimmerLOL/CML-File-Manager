@@ -10,7 +10,7 @@ class TestFunctional(unittest.TestCase):
         self.temp_dir = tempfile.TemporaryDirectory()
         self.temp_dir_path = self.temp_dir.name
         self.temp_file = os.path.join(self.temp_dir_path, 'test_file.txt')
-        self.temp_dir_2_layer = tempfile.TemporaryDirectory(dir = self.temp_dir_path, prefix ='temp_dir_2_layer')
+        self.temp_dir_2_layer = tempfile.TemporaryDirectory(dir=self.temp_dir_path, prefix='temp_dir_2_layer')
         self.temp_dir_2_layer_path = self.temp_dir_2_layer.name
         self.temp_file_2_layer = os.path.join(self.temp_dir_2_layer_path, 'test_file_2_layer.txt')
 
@@ -45,6 +45,11 @@ class TestFunctional(unittest.TestCase):
 
     def test_re_search(self):
         self.assertEqual(functional.re_search('test_file.txt', self.temp_dir_path), ['test_file.txt'])
+
+    def test_analyze(self):
+        print('TEST ANALYZE')
+        self.assertEqual(functional.analyze(self.temp_dir_path), 24)
+
 
 if __name__ == "__main__":
     unittest.main()

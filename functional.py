@@ -1,6 +1,7 @@
 import os.path
 import re
 
+
 def copy_file(file_name):
     if os.path.isfile(file_name):
         file_copy = f"{os.path.splitext(file_name)[0]}_copy{os.path.splitext(file_name)[1]}"
@@ -23,23 +24,55 @@ def count_files(dir_to_count):
     # Non-recursive
     counter = 0
     directory = os.path.normpath(dir_to_count)
-    #print(dir)
+    # print(dir)
     for item in os.listdir(directory):
-        #print(item)
+        # print(item)
         if os.path.isfile(os.path.join(dir_to_count, item)):
             counter += 1
     print(f'There are currently: {counter} files in {directory}')
     return counter
 
-def re_search(pattern, dir = os.getcwd()):
+
+def re_search(pattern, dir=os.getcwd()):
     cur_dir = dir
     result = list()
     print(f'We started! Pattern - {pattern} \n')
     for root, d, files in os.walk(cur_dir):
-        #print(root, dir, files, sep='\n')
+        # print(root, dir, files, sep='\n')
         for file in files:
             if re.search(pattern, file):
                 result.append(os.path.join(root, file))
     for item in result:
         print(item + '\n')
     return result
+
+
+def analyze(dir=os.getcwd()):
+    total_size = 0
+    print(f'Analyzing: {dir}')
+    def dir_analyze(dir):
+        total_size = 0
+        for item in os.listdir(dir):
+            full_path = os.path.join(dir, item)
+            if os.path.isfile(full_path):
+                file_size = os.path.getsize(full_path)
+                total_size += file_size
+            elif os.path.isdir(full_path):
+                dir_size = dir_analyze(full_path)
+                total_size += dir_size
+        return total_size
+
+    for item in os.listdir(dir):
+        full_path = os.path.join(dir, item)
+        if os.path.isfile(full_path):
+            file_size = os.path.getsize(full_path)
+            print(f"-File {item} - {file_size}b")
+            total_size += file_size
+
+        elif os.path.isdir(full_path):
+            dir_size = dir_analyze(full_path)
+            print(f'-Dir {full_path} - {dir_size}b')
+            total_size += dir_size
+
+    print(f"Total size of directory: {dir} - {total_size}b")
+    return total_size
