@@ -4,6 +4,7 @@ CLA File Manager
 1. python fmanager.py (Из папки с файлом)
 2. ./fman.bat (Из папки с файлом)
 3. Добавить папку с файлом в PATH и fman.bat откуда хотите.
+
 Функционал:
 1. copy - принимает файл, и создает его коипю. Пример вызова python fmanager.py file.txt | ./fman.bat filt.txt | fman.bat <путь к файлу> (Если файл в одной папке с скриптом, то достаточно имени файла, иначе - полный путь к файлу)
 2. delete - принимает файл/путь к нему, и удаляет его. Пример вызова - python fmanager.py delete file.txt | ./fman.bat delete file.txt | fman.bat <путь к файлу>
