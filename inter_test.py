@@ -3,9 +3,12 @@ import functional
 import pytest
 import shlex
 from fmanager import parse_args
+
 """
 Тут расписаны тестовые кейсы(по одному на каждую команду), после чего тестируется парсинг аргументов для каждого случая
 """
+
+
 @pytest.mark.parametrize(
     'command, expect_command, expect_dir, expect_pattern, expect_rec',
     [
@@ -24,9 +27,13 @@ def test_parse(command, expect_command, expect_dir, expect_pattern, expect_rec):
     assert args.dir == expect_dir if hasattr(args, 'dir') else True
     assert args.pattern == expect_pattern if hasattr(args, 'pattern') else True
     assert args.recursive == expect_rec if hasattr(args, 'recursive') else True
+
+
 """
 А тут, при помощи мока, у нас тестируется вызов команд 
 """
+
+
 @pytest.mark.parametrize(
     'command, expect_command, expect_dir, expect_pattern, expect_rec',
     [
@@ -39,7 +46,6 @@ def test_parse(command, expect_command, expect_dir, expect_pattern, expect_rec):
     ]
 )
 def test_command_exe(command, expect_command, expect_dir, expect_pattern, expect_rec):
-
     commands = {
         'copy': functional.copy_file,
         'delete': functional.delete_file,

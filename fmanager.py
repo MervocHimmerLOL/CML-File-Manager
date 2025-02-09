@@ -11,7 +11,8 @@ def parse_args(args_list=None):
     subparsers = parser.add_subparsers(dest='command', required=True)
 
     # Copy
-    copy_parser = subparsers.add_parser('copy', help='Copy file. Takes path/file name and makes copy of it in current dir')
+    copy_parser = subparsers.add_parser('copy',
+                                        help='Copy file. Takes path/file name and makes copy of it in current dir')
     copy_parser.add_argument('dir', type=str, help='Path or file name')
     copy_parser.set_defaults(func=functional.copy_file)
     # Delete
@@ -33,7 +34,8 @@ def parse_args(args_list=None):
     date_parser.add_argument('-r', '--recursive', action='store_true')
     date_parser.set_defaults(func=functional.date_file)
     # Analyze
-    analyze_parser = subparsers.add_parser('analyze', help='Takes dir and analyzes every file and dir size. Returns size of dir')
+    analyze_parser = subparsers.add_parser('analyze',
+                                           help='Takes dir and analyzes every file and dir size. Returns size of dir')
     analyze_parser.add_argument('dir', type=str, help='Dir to analyze')
     analyze_parser.set_defaults(func=functional.analyze)
 
@@ -56,7 +58,10 @@ def main(args_list=None):
     }
 
     if args.command == 'search':
-        commands[args.command](args.pattern)
+        if args.dir:
+            commands[args.command](args.pattern, args.dir)
+        else:
+            commands[args.command](args.pattern)
     elif args.command == 'date' and args.recursive:
         commands[args.command](args.dir, args.recursive)
     else:
